@@ -41,7 +41,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-
+app.use(cors());
 app.use(morgan('dev'));
 //App utilities
 app.use(express.static(path.join(__dirname, 'Public')));
