@@ -41,7 +41,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-app.use(cors());
 
 app.use(morgan('dev'));
 //App utilities
@@ -67,6 +66,13 @@ app.use(
 );
 
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,PATCH,DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  next();
+})
 
 app.use('/user', userRoutes);
 app.use('/auth',authRoutes);
