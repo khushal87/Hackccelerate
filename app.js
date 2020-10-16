@@ -85,7 +85,7 @@ app.use(errorHandler);
 //Mongoose connection
 //LOCAL URL - mongodb://localhost:27017/test
 
-let port = process.env.PORT || 5000;
+let port = process.env.PORT || 8080;
 mongoose
   .connect(constants.mongoURI, {
     useNewUrlParser: true,
