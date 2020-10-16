@@ -41,8 +41,9 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-app.use(morgan('dev'));
 app.use(cors());
+
+app.use(morgan('dev'));
 //App utilities
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(bodyParser.urlencoded({ extended: false })); //x-www-form-urlencoded
