@@ -15,6 +15,7 @@ const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/task');
 const foodRoutes = require('./routes/food');
+const notificationRoutes = require('./routes/notification');
 
 //App initialization
 const app = express();
@@ -79,6 +80,7 @@ app.use('/user', userRoutes);
 app.use('/auth',authRoutes);
 app.use('/task',taskRoutes);
 app.use('/food',foodRoutes);
+app.use('/notification',notificationRoutes);
 
 // //Handling error and response
 // app.use((error, req, res, next) => {

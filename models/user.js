@@ -46,6 +46,7 @@ const userSchema = new Schema({
         default:false,
         type:Boolean
     },
+    lastNotificationsCheckedAt: { type: Date, default: Date.now },
 },{timestamps:true});
 
 module.exports = mongoose.model('user',userSchema);
