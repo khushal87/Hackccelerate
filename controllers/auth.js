@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const brcrypt = require('bcrypt');
+const axios = require('axios');
 const sendEmail = require('../utils/sendEmail');
 const User = require('../models/user');
 
@@ -70,6 +71,42 @@ exports.loginUser=(req,res,next)=>{
         res.status(200).json({ message: "Logged in successfully!", token: token, userId: result[0]._id.toString(),user:result[0] });
     })
     .catch((error) => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+    }) 
+}
+
+exports.socialLogin =async(req,res,next)=>{
+    const GOOGLE_OAUTH_TOKEN_ENDPOINT = 'https://www.googleapis.com/oauth2/v3/tokeninfo/?id_token=';
+    const token = req.body.token;
+    axios.get(GOOGLE_OAUTH_TOKEN_ENDPOINT+token).then((result)=>{
+        if(!result.data) {
+            const error = new Error('Validation failed, no data for this token');
+            error.statusCode = 422;
+            error.data = errors.array();
+            throw error;
+        }
+        const {email} = result.data;
+        User.find({email:email}).then((result)=>{
+            if(result.length===0){
+                const error = new Error('Validation failed, user doesn\'t exists for the email.');
+                error.statusCode = 422;
+                error.data = errors.array();
+                throw error;
+            }
+            const token = jwt.sign({
+                email: result[0].email,
+                userId: result[0]._id.toString()
+            }, 'hackcceleratecredentials',
+                { expiresIn: '1h' }
+            );
+            res.status(200).json({ message: "User fetched", user: result[0],token:token,userId:result.length>0?result[0]._id:null });
+        })
+    })
+    .catch((error) => {
+        console.log(error)
         if (!error.statusCode) {
             error.statusCode = 500;
         }
