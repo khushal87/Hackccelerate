@@ -10,14 +10,13 @@ exports.getAllNotification=async (req,res,next)=>{
             error.status = 404;
             throw error;
         }
-        const notifications = await Notification.find({actor:id});
+        const notifications = await Notification.find({actor:id}).populate('actor');
         let uncheckedNotif = 0;
         notifications.map(notif => {
             if(new Date(notif.createdAt).getTime() > new Date(result.lastNotificationsCheckedAt).getTime()){
                 uncheckedNotif++;
             }
         });
-        console.log(notifications)
         result['lastNotificationsCheckedAt'] = Date.now();
         result.save();
         return res.status(200).send({

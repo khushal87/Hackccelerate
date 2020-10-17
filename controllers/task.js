@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const Task = require('../models/task');
 const User = require('../models/user');
+const Notification = require('../models/notification');
 
 exports.createTask =(req,res,next) =>{
     const userId = req.params.id;
@@ -100,15 +101,29 @@ exports.updateTask = (req,res,next)=>{
         });
 }
 
-exports.markTaskAsCompleted = (req,res,next)=>{
+exports.markTaskAsCompleted = async(req,res,next)=>{
     const taskId = req.params.id;
-    Task.findById(taskId).then((task)=>{
+    
+    await Task.findById(taskId).then(async(task)=>{
         if (!task) {
             const error = new Error('Could not find task.');
             error.status = 404;
             throw error;
         }
+        await User.findById(task.userId).then(async(result)=>{
+            if(!result){
+                const error = new Error('No user exists with this id.');
+                error.statusCode = 401;
+                throw error;
+            }
+            result.points+=5;
+            return result.save();
+        })
         task.is_completed = true;
+        await Notification.create({
+            actor: task.userId,
+            operation: 'task'
+        })
         return task.save();
     })
     .then(result => {
