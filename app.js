@@ -14,6 +14,7 @@ const { v4: uuidv4 } = require('uuid');
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/task');
+const foodRoutes = require('./routes/food');
 
 //App initialization
 const app = express();
@@ -77,7 +78,7 @@ app.use((req, res, next) => {
 app.use('/user', userRoutes);
 app.use('/auth',authRoutes);
 app.use('/task',taskRoutes);
-
+app.use('/food',foodRoutes);
 
 // //Handling error and response
 // app.use((error, req, res, next) => {
