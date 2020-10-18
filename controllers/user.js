@@ -55,7 +55,7 @@ exports.updateUser = (req,res,next)=>{
         gender?user.gender=gender:"";
         age?user.age=age:"";
         user.height=user.height;
-        user.weight=user.height;
+        user.weight=user.weight;
         return user.save();
     }).then((result) => {
         res.status(200).send({ message: "User details updated successfully!", user: result });
