@@ -11,7 +11,7 @@ exports.getTimeForUser = (req,res,next) =>{
         }
         const day = req.body.day;
         Time.find({day:day}).then((result)=>{
-            res.status(200).json({ message: "User time fetched", data: result });
+            res.status(200).json({ message: "User time fetched", data: result.filter(item=>item.userId===userId) });
         })
     })
     .catch((err) => {
