@@ -28,7 +28,7 @@ exports.createUser = (req,res,next)=>{
 
             brcrypt.genSalt(15,function(err,salt){
                 brcrypt.hash(password,salt,function(err,hash){
-                    const user = new User({name,email,password:hash,gender,age,height,weight});
+                    const user = new User({name,email,password:hash,gender,age,height:[height],weight:[weight]});
 
                     user.save().then(result =>{
                         res.status(200).json({ message: "User created successfully", user: user });

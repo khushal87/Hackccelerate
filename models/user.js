@@ -30,11 +30,11 @@ const userSchema = new Schema({
     },
     weight:{
         required:[true,'Weight is required'],
-        type:Number
+        type:Array
     },
     height:{
         required:[true,'Height is required'],
-        type:Number
+        type:Array
     },
     points:{
         required:false,

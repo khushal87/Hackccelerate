@@ -48,11 +48,14 @@ exports.updateUser = (req,res,next)=>{
             error.status = 404;
             throw error;
         }
+        
+        height?user.height.push(height):null;
+        weight?user.weight.push(weight):null;
         name?user.name=name:"";
         gender?user.gender=gender:"";
         age?user.age=age:"";
-        height?user.height=height:"";
-        weight?user.weight=weight:"";
+        user.height=user.height;
+        user.weight=user.height;
         return user.save();
     }).then((result) => {
         res.status(200).send({ message: "User details updated successfully!", user: result });
