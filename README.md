@@ -1,6 +1,7 @@
 # fFreak
 
 fFreak is a health and fitness tracking web application (PWA) which lets you manage all your fitness activity and lead towards good health.
+#### This repository has the backend for the web application.
 
 ## Installation
 
